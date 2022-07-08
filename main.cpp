@@ -7,20 +7,27 @@
 #include "mbed.h"
 #include "platform/mbed_thread.h"
 #include "HCSR04.h"
+#include "MQ135.h"
+
+
+MQ135 mq(A0);
+DigitalOut ledR(A1);
+DigitalOut ledV(A2);
 
 
 // Blinking rate in milliseconds
 #define BLINKING_RATE_MS    500
 Serial blueth(D1, D0, 115200);
-HCSR04 sonar(D8, D9);// sonar de devant
-HCSR04 sonar1(D10, D11); // sonar gauche
-HCSR04 sonar2(D12, D13); // sonar droite 
+HCSR04 sonarDevant(D8, D9);// sonar de devant
+HCSR04 sonarGauche(D10, D11); // sonar1 gauche
+HCSR04 sonarDroite(D12, D13); // sonar2 droite 
 DigitalOut Moteur1(D6); // moteur à droite
 DigitalOut Moteur2(D3); // moteur à gauche
 DigitalOut Mot1RotHor(D7);
 DigitalOut Mot1RotAntiHor(D5);
 DigitalOut Mot2RotHor(D4);
 DigitalOut Mot2RotAntiHor(D2);
+
 
 
 

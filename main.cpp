@@ -26,26 +26,43 @@ DigitalOut Mot2RotAntiHor(D2);
 
 int main()
 {
+   
+
     
+    mq.initialize();
     while(1) {
-        blueth.printf("Distance : %.2f cm \n", sonar.getCm()); 
-        
-        if(sonar.getCm() <= 80.0 and sonar1.getCm() >= 50.0 and sonar2.getCm() >= 50.0){
-            Mot1RotHor = 1;
-            Mot2RotHor = 0;
-        }else if(sonar.getCm() >= 80.0 and sonar1.getCm() <= 50.0 and sonar2.getCm() >= 50.0){
-            Mot1RotHor = 1;
-            Mot2RotHor = 0;
-        }else if(sonar.getCm() >= 80.0 and sonar1.getCm() >= 50.0 and sonar2.getCm() <= 50.0){
+        blueth.printf("\r Distance devant: %.2f cm \n", sonarDevant.getCm()); 
+        blueth.printf("\r Distance gauche: %.2f cm \n", sonarGauche.getCm()); 
+        blueth.printf("\r Distance droite: %.2f cm \n", sonarDroite.getCm());
+        blueth.printf("\r PPM mesure: %f PPM \n", mq.getPPM()); 
+        blueth.printf("\r \n");
+        if(mq.getPPM()>30){
+            ledR = 1;
+            ledV = 0;
+            Moteur1 = 0;
+            Moteur2 = 0;
             Mot1RotHor = 0;
-            Mot2RotHor = 1;
-        }else{
-            Moteur1 = 1;
-            Moteur2 = 1;
-            Mot1RotHor = 1;
-            Mot2RotHor = 1;
+            Mot2RotHor = 0;
+        }
+        else{
+            ledR = 0;
+            ledV = 1;
+            if(sonarDevant.getCm() <= 80.0 and sonarGauche.getCm() >= 50.0 and sonarDroite.getCm() >= 50.0){
+                Mot1RotHor = 1;
+                Mot2RotHor = 0;
+            }else if(sonarDevant.getCm() >= 80.0 and sonarGauche.getCm() <= 50.0 and sonarDroite.getCm() >= 50.0){
+                Mot1RotHor = 1;
+                Mot2RotHor = 0;
+            }else if(sonarDevant.getCm() >= 80.0 and sonarGauche.getCm() >= 50.0 and sonarDroite.getCm() <= 50.0){
+                Mot1RotHor = 0;
+                Mot2RotHor = 1;
+            }else{
+                Moteur1 = 1;
+                Moteur2 = 1;
+                Mot1RotHor = 1;
+                Mot2RotHor = 1;
+            } 
         }
         
     }
 }
-
